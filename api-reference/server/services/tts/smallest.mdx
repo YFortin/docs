@@ -57,6 +57,15 @@ export SMALLEST_API_KEY=your_api_key
   sample rate.
 </ParamField>
 
+<ParamField path="word_timestamps" type="bool" default="True">
+  Whether to request per-word timing events. When `True`, the server interleaves
+  word timestamp messages and the service emits aligned per-word `TTSTextFrame`s
+  for downstream consumers (captions, lip-sync, RTVI). Supported on base-queue
+  English and Hindi voices (`meher`, `devansh`, `kartik`, `maithili`, `liam`,
+  `avery`); other voices silently emit no word events, so leaving this on is safe
+  regardless of voice. Fixed at init time.
+</ParamField>
+
 <ParamField path="settings" type="SmallestTTSService.Settings" default="None">
   Runtime-configurable settings. See [Settings](#settings) below.
 </ParamField>
@@ -155,6 +164,7 @@ await task.queue_frame(
 
 - **WebSocket streaming**: The service uses WebSocket connections for real-time streaming. The connection is automatically managed and will reconnect if interrupted.
 - **Keepalive**: The service sends periodic keepalive messages (every 30 seconds) to prevent idle timeouts on the WebSocket connection.
+- **Word timestamps**: When enabled (the default), word-level timing events are emitted as per-word `TTSTextFrame`s aligned to audio playback. Multiple TTS requests within a turn are automatically offset onto a continuous timeline. Supported on specific voices (`meher`, `devansh`, `kartik`, `maithili`, `liam`, `avery`); other voices produce no word events but function normally.
 - **Model-specific parameters**: The `consistency`, `similarity`, and `enhancement` parameters are only effective when using the `lightning-v2` model. They are ignored by `lightning-v3.1`.
 - **Language support**: Supports multiple languages including Arabic, Bengali, German, English, Spanish, French, Gujarati, Hebrew, Hindi, Italian, Kannada, Marathi, Dutch, Polish, Russian, and Tamil.
 
