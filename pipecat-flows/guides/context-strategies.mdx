@@ -20,6 +20,13 @@ Flows provides three built-in ways to manage conversation context as you move be
   pre-action.
 </Warning>
 
+<Info>
+  **Initial node behavior:** The initial flow node follows its context strategy (default `APPEND`)
+  instead of always replacing the context. With the default strategy, context written before the
+  node's first inference — for example by a `tts_say` pre-action — is now preserved rather than
+  discarded. Set `context_strategy=RESET` on the initial node for the previous clean-slate behavior.
+</Info>
+
 ## When to Use Each Strategy
 
 - Use **APPEND** when full conversation history is important for context

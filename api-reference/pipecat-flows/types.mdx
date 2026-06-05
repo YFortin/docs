@@ -186,8 +186,13 @@ TypedDict for configuring actions that execute during node transitions.
 </ParamField>
 
 <ParamField path="text" type="str" default="None">
-  Text content used by `tts_say` and optionally by `end_conversation` (as a
-  goodbye message).
+  Text to speak for the `tts_say` action, or the optional goodbye message for
+  the `end_conversation` action.
+</ParamField>
+
+<ParamField path="append_text_to_context" type="bool" default="True">
+  For the built-in TTS actions (`tts_say` and `end_conversation`), whether the
+  spoken text is appended to the LLM context. Defaults to `True`.
 </ParamField>
 
 <Note>
@@ -199,8 +204,8 @@ TypedDict for configuring actions that execute during node transitions.
 
 | Type               | Description                                                 | Required Fields   |
 | ------------------ | ----------------------------------------------------------- | ----------------- |
-| `tts_say`          | Speak text using the pipeline's TTS service                 | `text`            |
-| `end_conversation` | End the conversation, optionally speaking a goodbye message | `text` (optional) |
+| `tts_say`          | Speak text using the pipeline's TTS service. The spoken text is appended to the LLM context by default; set `append_text_to_context=False` to opt out. | `text`            |
+| `end_conversation` | End the conversation, optionally speaking a goodbye message. If `text` is provided, it is appended to the LLM context by default; set `append_text_to_context=False` to opt out. | `text` (optional) |
 | `function`         | Execute a function inline in the pipeline                   | `handler`         |
 
 ### Example
