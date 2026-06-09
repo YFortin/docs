@@ -197,6 +197,12 @@ async def on_assistant_turn_started(aggregator):
 | ------------ | ------------------------ | --------------------------------- |
 | `aggregator` | `LLMAssistantAggregator` | The assistant aggregator instance |
 
+<Note>
+  This event fires for both LLM responses and `TTSSpeakFrame` utterances (when
+  `append_to_context=True`). For `TTSSpeakFrame` utterances, the event fires as
+  soon as the TTS service begins speaking.
+</Note>
+
 ### on_assistant_turn_stopped
 
 Fired when the assistant finishes responding or is interrupted. This event includes the complete assistant transcript for the turn.
@@ -218,10 +224,11 @@ async def on_assistant_turn_stopped(aggregator, message: AssistantTurnStoppedMes
 | `message`    | `AssistantTurnStoppedMessage` | Contains the assistant's transcript and metadata |
 
 <Note>
-  This event fires when the LLM response completes, when the user interrupts, or
-  when a user image is appended to context. The event always fires when a turn
-  ends, even if `content` is empty (e.g., the turn was interrupted before any
-  tokens were generated).
+  This event fires when an assistant turn ends: when an LLM response or
+  `TTSSpeakFrame` utterance completes, when the user interrupts, or when a user
+  image is appended to context. The event always fires when a turn ends, even if
+  `content` is empty (e.g., the turn was interrupted before any tokens were
+  generated).
 </Note>
 
 ### on_assistant_thought
